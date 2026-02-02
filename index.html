@@ -2,6 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>San Valentino 💘</title>
 <style>
     body {
@@ -12,6 +13,7 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
+        overflow: hidden;
         text-align: center;
         color: #b30059;
     }
@@ -22,21 +24,28 @@
         border-radius: 20px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         max-width: 400px;
+        width: 90%;
+        position: relative;
+        z-index: 10;
     }
 
-    h1 {
-        font-size: 26px;
-        margin-bottom: 20px;
-    }
+    h1 { font-size: 22px; margin-bottom: 20px; min-height: 80px; }
 
     img {
-        width: 200px;
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
         border-radius: 15px;
         margin-bottom: 15px;
     }
 
     .buttons {
         margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        height: 50px;
     }
 
     button {
@@ -45,33 +54,35 @@
         border: none;
         border-radius: 10px;
         cursor: pointer;
-        margin: 10px;
-        transition: all 0.3s ease;
+        transition: transform 0.2s ease;
     }
 
-    #yes {
-        background: #ff4d88;
-        color: white;
-        font-size: 22px;
+    #yes { background: #ff4d88; color: white; z-index: 100; }
+    #no { background: #ccc; color: black; }
+
+    .heart {
+        position: absolute;
+        top: -10%;
+        color: #ff4d88;
+        font-size: 20px;
+        user-select: none;
+        animation: fall linear forwards;
     }
 
-    #no {
-        background: #ccc;
-        color: black;
+    @keyframes fall {
+        to { transform: translateY(110vh) rotate(360deg); }
     }
 </style>
 </head>
 <body>
 
-<div class="card">
-    <!-- IMMAGINE (puoi cambiarla) -->
-    <img src="https://i.imgur.com/4M7IWwP.png" alt="Cuori">
-
-    <h1 id="question">Ciao Bubi vuoi passare San Valentino con me? 💘</h1>
+<div class="card" id="mainCard">
+    <img id="displayImg" src="1.jpg" alt="Foto">
+    <h1 id="question">Ciao Patakiddddd il 14 sei libera quindi????</h1>
 
     <div class="buttons">
         <button id="yes" onclick="yesClicked()">Sì ❤️</button>
-        <button id="no" onclick="noClicked()">No 😢</button>
+        <button id="no" onmouseover="moveNo()" onclick="noClicked()">No 😢</button>
     </div>
 </div>
 
@@ -79,38 +90,72 @@
 let noCount = 0;
 
 const questions = [
-    "Ciao Bubi vuoi passare San Valentino con me? 💘",
-    "Ma sei sicura sicura? 🥺",
-    "Daiii prometto cioccolato 🍫",
-    "Ultima possibilità 😳",
-    "Ok sto piangendo 😭"
+    "Non andare da Madalina",
+    "Amore perchè mi odi???",
+    "Amore perchè non mi ami piùùùùùù",
+    "Sei una sfiggy clicca siiiiiiiiiiiiii",
+    "Dai non vuoi venire a raccogliere i funghi con meeee",
+    "Godo ora devi accettare per forzaaaaaaaaaaaaaaaaa"
 ];
+
+// Sequenza immagini caricata correttamente
+const images = ["2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg"];
 
 function noClicked() {
     noCount++;
+    updateUI();
+}
 
+function moveNo() {
+    if (noCount >= 2) {
+        const noBtn = document.getElementById("no");
+        const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+        const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+        
+        noBtn.style.position = "fixed";
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    }
+}
+
+function updateUI() {
     const yesBtn = document.getElementById("yes");
     const noBtn = document.getElementById("no");
     const question = document.getElementById("question");
+    const img = document.getElementById("displayImg");
 
-    yesBtn.style.transform = `scale(${1 + noCount * 0.2})`;
-    noBtn.style.transform = `scale(${1 - noCount * 0.1})`;
+    yesBtn.style.transform = `scale(${1 + noCount * 0.6})`;
 
-    if (noCount < questions.length) {
-        question.innerText = questions[noCount];
-    } else {
-        question.innerText = "Non puoi scappare dall'amore 💞";
+    if (noCount <= questions.length) {
+        question.innerText = questions[noCount - 1];
+        if(images[noCount-1]) img.src = images[noCount-1];
+    }
+
+    if (noCount >= 6) {
+        noBtn.style.display = "none";
     }
 }
 
 function yesClicked() {
-    document.body.innerHTML = `
-        <div class="card">
-            <h1>🎉 SIIII! 🎉</h1>
-            <p>Non vedo l'ora di passare San Valentino con te ❤️</p>
-            <p>Ti amo 💖</p>
-        </div>
+    const mainCard = document.getElementById("mainCard");
+    setInterval(createHeart, 300);
+
+    mainCard.innerHTML = `
+        <img src="finale.jpg" alt="Noi ❤️" style="width: 100%; max-width: 250px; border-radius: 20px;">
+        <h1 style="font-size: 24px;">🎉 GODOOO PATATINAAAAA! 🎉</h1>
+        <p style="font-size: 18px;">Ora andiamo a raccogliere in montagna i funghi in costume da bagnooooo AHHAAHHAHAHAHAH</p>
+        <p style="font-size: 26px;">Ti amo Patakid 💖</p>
     `;
+}
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💕";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
 }
 </script>
 
