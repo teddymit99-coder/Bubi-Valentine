@@ -45,7 +45,8 @@
         justify-content: center;
         align-items: center;
         gap: 15px;
-        height: 50px;
+        height: 80px; /* Aumentato per dare spazio al SI senza coprire sopra */
+        position: relative;
     }
 
     button {
@@ -54,11 +55,21 @@
         border: none;
         border-radius: 10px;
         cursor: pointer;
-        transition: transform 0.2s ease;
+        transition: all 0.3s ease;
     }
 
-    #yes { background: #ff4d88; color: white; z-index: 100; }
-    #no { background: #ccc; color: black; position: relative; }
+    #yes { 
+        background: #ff4d88; 
+        color: white; 
+        z-index: 100;
+        position: relative;
+    }
+
+    #no { 
+        background: #ccc; 
+        color: black; 
+        z-index: 50;
+    }
 
     .heart {
         position: absolute;
@@ -106,7 +117,6 @@ function noClicked() {
 }
 
 function moveNo() {
-    // Il tasto scappa SOLO all'ultima frase
     if (noCount >= 6) {
         const noBtn = document.getElementById("no");
         const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
@@ -124,12 +134,13 @@ function updateUI() {
     const question = document.getElementById("question");
     const img = document.getElementById("displayImg");
 
-    // Il tasto Sì cresce
-    yesBtn.style.transform = `scale(${1 + noCount * 0.4})`;
+    // CRESCITA CONTROLLATA: il Sì cresce ma si ferma a un massimo (scale 1.8)
+    // così non copre la scritta sopra
+    let newScale = Math.min(1.8, 1 + noCount * 0.15);
+    yesBtn.style.transform = `scale(${newScale})`;
     
-    // Il tasto No si rimpicciolisce pochissimo (3% a click)
-    // Rimarrà circa all'80% della dimensione originale alla fine
-    noBtn.style.transform = `scale(${1 - noCount * 0.03})`;
+    // Il No si rimpicciolisce molto poco
+    noBtn.style.transform = `scale(${Math.max(0.8, 1 - noCount * 0.02)})`;
 
     if (noCount <= questions.length) {
         question.innerText = questions[noCount - 1];
