@@ -58,7 +58,7 @@
     }
 
     #yes { background: #ff4d88; color: white; z-index: 100; }
-    #no { background: #ccc; color: black; }
+    #no { background: #ccc; color: black; position: relative; }
 
     .heart {
         position: absolute;
@@ -77,7 +77,7 @@
 <body>
 
 <div class="card" id="mainCard">
-    <img id="displayImg" src="1.jpg" alt="Foto">
+    <img id="displayImg" src="1.jpeg" alt="Foto">
     <h1 id="question">Ciao Patakiddddd il 14 sei libera quindi????</h1>
 
     <div class="buttons">
@@ -98,8 +98,8 @@ const questions = [
     "Godo ora devi accettare per forzaaaaaaaaaaaaaaaaa"
 ];
 
-// Sequenza immagini caricata correttamente
-const images = ["2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg"];
+// Estensioni corrette a .jpeg
+const images = ["2.jpeg", "3.jpeg", "4.jpeg", "5.jpeg", "6.jpeg", "7.jpeg"];
 
 function noClicked() {
     noCount++;
@@ -107,7 +107,8 @@ function noClicked() {
 }
 
 function moveNo() {
-    if (noCount >= 2) {
+    // Il tasto scappa SOLO all'ultima frase (quando noCount è 6)
+    if (noCount >= 6) {
         const noBtn = document.getElementById("no");
         const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
         const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
@@ -120,19 +121,16 @@ function moveNo() {
 
 function updateUI() {
     const yesBtn = document.getElementById("yes");
-    const noBtn = document.getElementById("no");
     const question = document.getElementById("question");
     const img = document.getElementById("displayImg");
 
-    yesBtn.style.transform = `scale(${1 + noCount * 0.6})`;
+    yesBtn.style.transform = `scale(${1 + noCount * 0.5})`;
 
     if (noCount <= questions.length) {
         question.innerText = questions[noCount - 1];
-        if(images[noCount-1]) img.src = images[noCount-1];
-    }
-
-    if (noCount >= 6) {
-        noBtn.style.display = "none";
+        if(images[noCount-1]) {
+            img.src = images[noCount-1];
+        }
     }
 }
 
@@ -141,7 +139,7 @@ function yesClicked() {
     setInterval(createHeart, 300);
 
     mainCard.innerHTML = `
-        <img src="finale.jpg" alt="Noi ❤️" style="width: 100%; max-width: 250px; border-radius: 20px;">
+        <img src="finale.jpeg" alt="Noi ❤️" style="width: 100%; max-width: 250px; border-radius: 20px;">
         <h1 style="font-size: 24px;">🎉 GODOOO PATATINAAAAA! 🎉</h1>
         <p style="font-size: 18px;">Ora andiamo a raccogliere in montagna i funghi in costume da bagnooooo AHHAAHHAHAHAHAH</p>
         <p style="font-size: 26px;">Ti amo Patakid 💖</p>
