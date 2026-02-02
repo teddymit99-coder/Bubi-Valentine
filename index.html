@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>San Valentino 💘</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Comic Sans MS', cursive;
+        background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+        color: #b30059;
+    }
+
+    .card {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        max-width: 400px;
+    }
+
+    h1 {
+        font-size: 26px;
+        margin-bottom: 20px;
+    }
+
+    img {
+        width: 200px;
+        border-radius: 15px;
+        margin-bottom: 15px;
+    }
+
+    .buttons {
+        margin-top: 20px;
+    }
+
+    button {
+        padding: 12px 25px;
+        font-size: 18px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin: 10px;
+        transition: all 0.3s ease;
+    }
+
+    #yes {
+        background: #ff4d88;
+        color: white;
+        font-size: 22px;
+    }
+
+    #no {
+        background: #ccc;
+        color: black;
+    }
+</style>
+</head>
+<body>
+
+<div class="card">
+    <!-- IMMAGINE (puoi cambiarla) -->
+    <img src="https://i.imgur.com/4M7IWwP.png" alt="Cuori">
+
+    <h1 id="question">Ciao Bubi vuoi passare San Valentino con me? 💘</h1>
+
+    <div class="buttons">
+        <button id="yes" onclick="yesClicked()">Sì ❤️</button>
+        <button id="no" onclick="noClicked()">No 😢</button>
+    </div>
+</div>
+
+<script>
+let noCount = 0;
+
+const questions = [
+    "Ciao Bubi vuoi passare San Valentino con me? 💘",
+    "Ma sei sicura sicura? 🥺",
+    "Daiii prometto cioccolato 🍫",
+    "Ultima possibilità 😳",
+    "Ok sto piangendo 😭"
+];
+
+function noClicked() {
+    noCount++;
+
+    const yesBtn = document.getElementById("yes");
+    const noBtn = document.getElementById("no");
+    const question = document.getElementById("question");
+
+    yesBtn.style.transform = `scale(${1 + noCount * 0.2})`;
+    noBtn.style.transform = `scale(${1 - noCount * 0.1})`;
+
+    if (noCount < questions.length) {
+        question.innerText = questions[noCount];
+    } else {
+        question.innerText = "Non puoi scappare dall'amore 💞";
+    }
+}
+
+function yesClicked() {
+    document.body.innerHTML = `
+        <div class="card">
+            <h1>🎉 SIIII! 🎉</h1>
+            <p>Non vedo l'ora di passare San Valentino con te ❤️</p>
+            <p>Ti amo 💖</p>
+        </div>
+    `;
+}
+</script>
+
+</body>
+</html>
