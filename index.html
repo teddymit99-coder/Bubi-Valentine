@@ -98,7 +98,6 @@ const questions = [
     "Godo ora devi accettare per forzaaaaaaaaaaaaaaaaa"
 ];
 
-// Estensioni corrette a .jpeg
 const images = ["2.jpeg", "3.jpeg", "4.jpeg", "5.jpeg", "6.jpeg", "7.jpeg"];
 
 function noClicked() {
@@ -107,7 +106,7 @@ function noClicked() {
 }
 
 function moveNo() {
-    // Il tasto scappa SOLO all'ultima frase (quando noCount è 6)
+    // Il tasto scappa SOLO all'ultima frase
     if (noCount >= 6) {
         const noBtn = document.getElementById("no");
         const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
@@ -121,10 +120,16 @@ function moveNo() {
 
 function updateUI() {
     const yesBtn = document.getElementById("yes");
+    const noBtn = document.getElementById("no");
     const question = document.getElementById("question");
     const img = document.getElementById("displayImg");
 
-    yesBtn.style.transform = `scale(${1 + noCount * 0.5})`;
+    // Il tasto Sì cresce
+    yesBtn.style.transform = `scale(${1 + noCount * 0.4})`;
+    
+    // Il tasto No si rimpicciolisce pochissimo (3% a click)
+    // Rimarrà circa all'80% della dimensione originale alla fine
+    noBtn.style.transform = `scale(${1 - noCount * 0.03})`;
 
     if (noCount <= questions.length) {
         question.innerText = questions[noCount - 1];
